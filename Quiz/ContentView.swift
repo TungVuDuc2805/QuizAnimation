@@ -76,73 +76,76 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             VStack {
-                HStack {
-                    Button {
-                        
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .fontWeight(.medium)
-                    }
-                    .frame(width: 45, height: 45)
-                    .background(Color.white)
-                    .clipShape(Circle())
-                    .shadow(color: Color.gray.opacity(0.2), radius: 5)
-                    .tint(Color("TextColor"))
-                    
-                    Spacer()
-                    
-                    Circle()
-                        .stroke(.gray.opacity(0.2), lineWidth: 6)
-                        .frame(width: 45)
-                        .overlay(
-                            Circle()
-                                .trim(from: 0, to: CGFloat(Double(viewModel.currentQuestionIndex)/Double(viewModel.questions.count)))
-                                .stroke(.green, style: StrokeStyle(lineWidth: 6, lineCap: .round))
-                                .frame(width: 45)
-                                .rotationEffect(.degrees(-90))
-                        )
-                        .background(
-                            Text("\(viewModel.currentQuestionIndex)")
-                                .fontWeight(.semibold)
-                                .foregroundStyle(Color("TextColor"))
-                        )
-                        .animation(.easeInOut, value: viewModel.currentQuestionIndex)
-                    
-                    Spacer()
-                    
-                    Button {
-                        
-                    } label: {
-                        Image(systemName: "xmark")
-                            .fontWeight(.medium)
-                    }
-                    .frame(width: 45, height: 45)
-                    .background(Color.white)
-                    .clipShape(Circle())
-                    .shadow(color: Color.gray.opacity(0.2), radius: 5)
-                    .tint(Color("TextColor"))
-                }
-                
-                Text("Which option that describes the image best?")
-                    .fontWeight(.medium)
-                    .foregroundStyle(Color("TextColor"))
-                    .padding(.top)
-                
-                
-                Spacer()
-                
                 if let question = viewModel.currentQuestion {
+                    HStack {
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "chevron.left")
+                                .fontWeight(.medium)
+                        }
+                        .frame(width: 45, height: 45)
+                        .background(Color.white)
+                        .clipShape(Circle())
+                        .shadow(color: Color.gray.opacity(0.2), radius: 5)
+                        .tint(Color("TextColor"))
+                        
+                        Spacer()
+                        
+                        Circle()
+                            .stroke(.gray.opacity(0.2), lineWidth: 6)
+                            .frame(width: 45)
+                            .overlay(
+                                Circle()
+                                    .trim(from: 0, to: CGFloat(Double(viewModel.currentQuestionIndex)/Double(viewModel.questions.count)))
+                                    .stroke(.green, style: StrokeStyle(lineWidth: 6, lineCap: .round))
+                                    .frame(width: 45)
+                                    .rotationEffect(.degrees(-90))
+                            )
+                            .background(
+                                Text("\(viewModel.currentQuestionIndex)")
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(Color("TextColor"))
+                            )
+                            .animation(.easeInOut, value: viewModel.currentQuestionIndex)
+                        
+                        Spacer()
+                        
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: "xmark")
+                                .fontWeight(.medium)
+                        }
+                        .frame(width: 45, height: 45)
+                        .background(Color.white)
+                        .clipShape(Circle())
+                        .shadow(color: Color.gray.opacity(0.2), radius: 5)
+                        .tint(Color("TextColor"))
+                    }
+                    
+                    Text("Which option that describes the image best?")
+                        .fontWeight(.medium)
+                        .foregroundStyle(Color("TextColor"))
+                        .padding(.top)
+                    
+                    
+                    Spacer()
+                    
                     QuestionView(question: question, publishSelection: $viewModel.selection)
                 } else {
-//                    Button {
-//                        viewModel.restart()
-//                    } label: {
-//                        Text("Restart")
-//                    }
-//                    .buttonStyle(.bordered)
+                    ZStack {
+                        Button {
+                            viewModel.restart()
+                        } label: {
+                            Text("Restart")
+                        }
+                        .buttonStyle(.bordered)
+                        
+                        Spacer()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
-                
-                Spacer()
             }
             .padding()
         }
