@@ -88,7 +88,7 @@ struct ContentView: View {
                         .background(Color.white)
                         .clipShape(Circle())
                         .shadow(color: Color.gray.opacity(0.2), radius: 5)
-                        .tint(Color("TextColor"))
+                        .tint(Color.textColor)
                         
                         Spacer()
                         
@@ -105,7 +105,7 @@ struct ContentView: View {
                             .background(
                                 Text("\(viewModel.currentQuestionIndex)")
                                     .fontWeight(.semibold)
-                                    .foregroundStyle(Color("TextColor"))
+                                    .foregroundStyle(Color.textColor)
                             )
                             .animation(.easeInOut, value: viewModel.currentQuestionIndex)
                         
@@ -121,12 +121,12 @@ struct ContentView: View {
                         .background(Color.white)
                         .clipShape(Circle())
                         .shadow(color: Color.gray.opacity(0.2), radius: 5)
-                        .tint(Color("TextColor"))
+                        .tint(Color.textColor)
                     }
                     
                     Text("Which option that describes the image best?")
                         .fontWeight(.medium)
-                        .foregroundStyle(Color("TextColor"))
+                        .foregroundStyle(Color.textColor)
                         .padding(.top)
                     
                     
@@ -149,6 +149,6 @@ struct ContentView: View {
             }
             .padding()
         }
-        .background(Color("PrimaryBackground"))
+        .background(Color.backgroundColor)
     }
 }

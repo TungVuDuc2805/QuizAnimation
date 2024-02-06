@@ -46,14 +46,14 @@ struct OptionButtonView: View {
     func getBackgroundColor() -> Color {
         if showAnswer {
             if title == correctAnswer {
-                return Color("CorrectButtonBackground")
+                return Color.correctBackground
             } else if selection == title && selection != correctAnswer {
-                return Color("WrongButtonBackground")
+                return Color.wrongBackground
             } else {
-                return Color("ButtonBackground")
+                return Color.defaultButtonBackground
             }
         } else {
-            return selection == title ? Color("CorrectButtonBackground") : Color("ButtonBackground")
+            return selection == title ? Color.correctBackground : Color.defaultButtonBackground
         }
     }
 }

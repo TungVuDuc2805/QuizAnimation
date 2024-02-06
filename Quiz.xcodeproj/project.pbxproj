@@ -14,6 +14,7 @@
 		DF998D1A2B725A5200490D1D /* ImageQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF998D192B725A5200490D1D /* ImageQuestionView.swift */; };
 		DF998D1C2B725A6700490D1D /* OptionButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF998D1B2B725A6700490D1D /* OptionButtonView.swift */; };
 		DF998D1E2B725A8900490D1D /* QuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF998D1D2B725A8900490D1D /* QuestionView.swift */; };
+		DF998D202B725B8200490D1D /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF998D1F2B725B8200490D1D /* Color+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		DF998D192B725A5200490D1D /* ImageQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageQuestionView.swift; sourceTree = "<group>"; };
 		DF998D1B2B725A6700490D1D /* OptionButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionButtonView.swift; sourceTree = "<group>"; };
 		DF998D1D2B725A8900490D1D /* QuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionView.swift; sourceTree = "<group>"; };
+		DF998D1F2B725B8200490D1D /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				DF998D192B725A5200490D1D /* ImageQuestionView.swift */,
 				DF998D052B71C72300490D1D /* Assets.xcassets */,
 				DF998D072B71C72300490D1D /* Preview Content */,
+				DF998D1F2B725B8200490D1D /* Color+Extension.swift */,
 			);
 			path = Quiz;
 			sourceTree = "<group>";
@@ -147,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF998D1E2B725A8900490D1D /* QuestionView.swift in Sources */,
+				DF998D202B725B8200490D1D /* Color+Extension.swift in Sources */,
 				DF998D042B71C72000490D1D /* ContentView.swift in Sources */,
 				DF998D1C2B725A6700490D1D /* OptionButtonView.swift in Sources */,
 				DF998D1A2B725A5200490D1D /* ImageQuestionView.swift in Sources */,
