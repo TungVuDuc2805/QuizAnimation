@@ -15,9 +15,19 @@ struct QuestionView: View {
     @Binding var publishSelection: String?
     @State private var dimissOptions = false
     @State private var showAnswer = false
+    @State private var firstLoad = false
     
     var body: some View {
         VStack {
+            Text(question.current.title)
+                .multilineTextAlignment(.center)
+                .fontWeight(.medium)
+                .foregroundStyle(Color.textColor)
+                .padding(.top)
+                .scaleEffect(firstLoad ? 1 : 0.9)
+
+            Spacer()
+            
             ZStack {
                 if let next = question.nextNext {
                     ImageQuestionView(image: next.image)
@@ -35,6 +45,7 @@ struct QuestionView: View {
                     .offset(x: dismissQuestion ? 1000 : 0)
                     .offset(y: -10)
             }
+            .scaleEffect(firstLoad ? 1 : 0.9)
             .padding(40)
 
             VStack(spacing: 15) {
@@ -55,6 +66,7 @@ struct QuestionView: View {
         .onAppear {
             withAnimation(.easeInOut(duration: 0.5)) {
                 showQuestion = true
+                firstLoad = true
             }
         }
         .onChange(of: question.current) { _ in

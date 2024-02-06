@@ -16,6 +16,7 @@ struct OptionButtonView: View {
     @Binding var dismissOptions: Bool
     @Binding var showAnswer: Bool
     @State var showAnimated: Bool = false
+    @State var scale = false
     
     var body: some View {
         Button {
@@ -29,6 +30,8 @@ struct OptionButtonView: View {
                 .background(getBackgroundColor())
                 .clipShape(RoundedRectangle(cornerRadius: 30))
         }
+        .buttonStyle(ScaleButtonStyle())
+        .scaleEffect(scale ? 0.95 : 1)
         .opacity(showAnimated ? 1 : 0)
         .scaleEffect(showAnimated ? 1 : 0.9)
         .onAppear {
@@ -55,5 +58,12 @@ struct OptionButtonView: View {
         } else {
             return selection == title ? Color.correctBackground : Color.defaultButtonBackground
         }
+    }
+}
+
+struct ScaleButtonStyle: ButtonStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.95 : 1)
     }
 }

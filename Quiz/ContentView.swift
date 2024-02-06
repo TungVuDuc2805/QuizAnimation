@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Question: Identifiable, Equatable {
     let id: UUID = UUID()
+    let title: String
     let image: String
     let options: [String]
     let answer: String
@@ -123,15 +124,6 @@ struct ContentView: View {
                         .shadow(color: Color.gray.opacity(0.2), radius: 5)
                         .tint(Color.textColor)
                     }
-                    
-                    Text("Which option that describes the image best?")
-                        .multilineTextAlignment(.center)
-                        .fontWeight(.medium)
-                        .foregroundStyle(Color.textColor)
-                        .padding(.top)
-                    
-                    
-                    Spacer()
                     
                     QuestionView(question: question, publishSelection: $viewModel.selection)
                 } else {
