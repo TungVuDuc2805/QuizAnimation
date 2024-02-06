@@ -175,7 +175,6 @@ struct QuestionView: View {
                 
                 ImageQuestionView(image: question.current.image)
                     .offset(x: dismissQuestion ? 1000 : 0)
-                    .shadow(color: Color.gray.opacity(0.3), radius: 5)
                     .offset(y: -10)
             }
             .padding(40)
@@ -245,11 +244,11 @@ struct OptionButtonView: View {
             Text(title)
                 .font(.system(.title3, weight: .medium))
                 .foregroundStyle(Color.white)
+                .frame(height: 60)
+                .frame(maxWidth: .infinity)
+                .background(getBackgroundColor())
+                .clipShape(RoundedRectangle(cornerRadius: 30))
         }
-        .frame(height: 60)
-        .frame(maxWidth: .infinity)
-        .background(getBackgroundColor())
-        .clipShape(RoundedRectangle(cornerRadius: 30))
         .opacity(showAnimated ? 1 : 0)
         .scaleEffect(showAnimated ? 1 : 0.9)
         .onAppear {
