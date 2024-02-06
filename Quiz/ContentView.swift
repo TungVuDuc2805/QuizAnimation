@@ -21,7 +21,7 @@ class ContentViewModel: ObservableObject {
             checkAnswer()
         }
     }
-    @Published var currentQuestion: (current: Question, next: Question?, nextNext: Question?)?
+    @Published var triple: (current: Question, next: Question?, nextNext: Question?)?
     @Published var shouldHighlightCorrectAnswer: String?
     @Published var currentQuestionIndex = 0
     
@@ -45,9 +45,9 @@ class ContentViewModel: ObservableObject {
             } else {
                 nextNextQuestion = nil
             }
-            self.currentQuestion = (currentQuestion, nextQuestion, nextNextQuestion)
+            self.triple = (currentQuestion, nextQuestion, nextNextQuestion)
         } else {
-            self.currentQuestion = nil
+            self.triple = nil
         }
     }
     
@@ -76,7 +76,7 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             VStack {
-                if let question = viewModel.currentQuestion {
+                if let question = viewModel.triple {
                     HStack {
                         Button {
                             
@@ -209,25 +209,37 @@ struct QuestionView: View {
             }
         }
         .onChange(of: selection) { _ in
+            onSelectionChange()
+        }
+    }
+    
+    private func onSelectionChange() {
+        if selection == question.current.answer {
+            animateChanges()
+        } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 withAnimation(.easeInOut(duration: 0.5)) {
                     showAnswer = true
                 }
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    withAnimation(.easeInOut(duration: 0.5)) {
-                        dismissQuestion = true
-                        dimissOptions = true
-                    }
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        publishSelection = selection
-                        dismissQuestion = false
-                        dimissOptions = false
-                        showQuestion = false
-                        showAnswer = false
-                    }
-                }
+                animateChanges()
+            }
+        }
+    }
+    
+    private func animateChanges() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            withAnimation(.easeInOut(duration: 0.5)) {
+                dismissQuestion = true
+                dimissOptions = true
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                publishSelection = selection
+                dismissQuestion = false
+                dimissOptions = false
+                showQuestion = false
+                showAnswer = false
             }
         }
     }
