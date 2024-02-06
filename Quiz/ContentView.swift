@@ -134,13 +134,12 @@ struct ContentView: View {
                 if let question = viewModel.currentQuestion {
                     QuestionView(question: question, publishSelection: $viewModel.selection)
                 } else {
-                    Button {
-                        viewModel.restart()
-                    } label: {
-                        Text("Restart")
-                    }
-                    .buttonStyle(.bordered)
-
+//                    Button {
+//                        viewModel.restart()
+//                    } label: {
+//                        Text("Restart")
+//                    }
+//                    .buttonStyle(.bordered)
                 }
                 
                 Spacer()
@@ -169,6 +168,7 @@ struct QuestionView: View {
                         Image(next.image)
                             .resizable()
                             .aspectRatio(1, contentMode: .fit)
+                            .padding(30)
                     }
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .shadow(color: Color.gray.opacity(0.3), radius: 5)
@@ -183,6 +183,7 @@ struct QuestionView: View {
                         Image(next.image)
                             .resizable()
                             .aspectRatio(1, contentMode: .fit)
+                            .padding(30)
                     }
                     .clipShape(RoundedRectangle(cornerRadius: 20))
                     .shadow(color: Color.gray.opacity(0.3), radius: 5)
@@ -196,6 +197,7 @@ struct QuestionView: View {
                     Image(question.current.image)
                         .resizable()
                         .aspectRatio(1, contentMode: .fit)
+                        .padding(30)
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .offset(x: dismissQuestion ? 1000 : 0)
