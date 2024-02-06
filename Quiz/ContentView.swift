@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct Question: Identifiable {
+struct Question: Identifiable, Equatable {
     let id: UUID = UUID()
-    let image: String = "Orange_fruit_logo"
+    let image: String
     let options: [String]
     let answer: String
 }
@@ -23,7 +23,7 @@ class ContentViewModel: ObservableObject {
     }
     @Published var currentQuestion: (current: Question, next: Question?, nextNext: Question?)?
     @Published var shouldHighlightCorrectAnswer: String?
-    private var currentQuestionIndex = 0
+    @Published var currentQuestionIndex = 0
     
     init(questions: [Question]) {
         self.questions = questions
@@ -52,13 +52,17 @@ class ContentViewModel: ObservableObject {
     }
     
     func checkAnswer() {
-        guard let answer = selection else {
+        guard let _ = selection else {
             return
         }
         currentQuestionIndex += 1
         getCurrentQuestion()
         selection = nil
-//        shouldHighlightCorrectAnswer = questions[currentQuestionId].answer
+    }
+    
+    func restart() {
+        currentQuestionIndex = 0
+        getCurrentQuestion()
     }
 }
 
@@ -79,7 +83,7 @@ struct ContentView: View {
                         Image(systemName: "chevron.left")
                             .fontWeight(.medium)
                     }
-                    .padding()
+                    .frame(width: 45, height: 45)
                     .background(Color.white)
                     .clipShape(Circle())
                     .shadow(color: Color.gray.opacity(0.2), radius: 5)
@@ -92,16 +96,17 @@ struct ContentView: View {
                         .frame(width: 45)
                         .overlay(
                             Circle()
-                                .trim(from: 0, to: 0.5)
+                                .trim(from: 0, to: CGFloat(Double(viewModel.currentQuestionIndex)/Double(viewModel.questions.count)))
                                 .stroke(.green, style: StrokeStyle(lineWidth: 6, lineCap: .round))
                                 .frame(width: 45)
                                 .rotationEffect(.degrees(-90))
                         )
                         .background(
-                            Text("5")
+                            Text("\(viewModel.currentQuestionIndex)")
                                 .fontWeight(.semibold)
                                 .foregroundStyle(Color("TextColor"))
                         )
+                        .animation(.easeInOut, value: viewModel.currentQuestionIndex)
                     
                     Spacer()
                     
@@ -111,14 +116,14 @@ struct ContentView: View {
                         Image(systemName: "xmark")
                             .fontWeight(.medium)
                     }
-                    .padding()
+                    .frame(width: 45, height: 45)
                     .background(Color.white)
                     .clipShape(Circle())
                     .shadow(color: Color.gray.opacity(0.2), radius: 5)
                     .tint(Color("TextColor"))
                 }
                 
-                Text("What's the correct translation?")
+                Text("Which option that describes the image best?")
                     .fontWeight(.medium)
                     .foregroundStyle(Color("TextColor"))
                     .padding(.top)
@@ -130,7 +135,7 @@ struct ContentView: View {
                     QuestionView(question: question, publishSelection: $viewModel.selection)
                 } else {
                     Button {
-                        
+                        viewModel.restart()
                     } label: {
                         Text("Restart")
                     }
@@ -149,63 +154,85 @@ struct ContentView: View {
 struct QuestionView: View {
     let question: (current: Question, next: Question?, nextNext: Question?)
     @State var selection: String?
-    @State private var showOptions = false
+    @State private var showQuestion: Bool = false
     @State var dismissQuestion: Bool = false
     @Binding var publishSelection: String?
+    @State private var dimissOptions = false
     
     var body: some View {
         VStack {
             ZStack {
                 if let next = question.nextNext {
-                    Image(next.image)
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .shadow(color: Color.gray.opacity(0.3), radius: 5)
-                        .offset(y: dismissQuestion ? 15 : 30)
-                        .scaleEffect(dismissQuestion ? 0.9 : 0.8)
-                }
-                if let next = question.next {
-                    Image(next.image)
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .shadow(color: Color.gray.opacity(0.3), radius: 5)
-                        .offset(y: dismissQuestion ? -10 : 15)
-                        .scaleEffect(dismissQuestion ? 1 : 0.9)
+                    ZStack {
+                        Color.white
+                        
+                        Image(next.image)
+                            .resizable()
+                            .aspectRatio(1, contentMode: .fit)
+                    }
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .shadow(color: Color.gray.opacity(0.3), radius: 5)
+                    .offset(y: dismissQuestion ? 20 : 30)
+                    .scaleEffect(dismissQuestion ? 0.9 : 0.8)
                 }
                 
-                Image(question.current.image)
-                    .resizable()
-                    .aspectRatio(1, contentMode: .fit)
+                if let next = question.next {
+                    ZStack {
+                        Color.white
+                        
+                        Image(next.image)
+                            .resizable()
+                            .aspectRatio(1, contentMode: .fit)
+                    }
                     .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .offset(x: dismissQuestion ? 1000 : 0)
                     .shadow(color: Color.gray.opacity(0.3), radius: 5)
-                    .offset(y: -10)
+                    .offset(y: dismissQuestion ? -10 : 20)
+                    .scaleEffect(dismissQuestion ? 1 : 0.9)
+                }
+                
+                ZStack {
+                    Color.white
+                    
+                    Image(question.current.image)
+                        .resizable()
+                        .aspectRatio(1, contentMode: .fit)
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .offset(x: dismissQuestion ? 1000 : 0)
+                .shadow(color: Color.gray.opacity(0.3), radius: 5)
+                .offset(y: -10)
             }
             .padding(40)
-            
+
             VStack(spacing: 15) {
                 ForEach(question.current.options.indices, id: \.self) { index in
                     let option = question.current.options[index]
-                    OptionButtonView(title: option, delay: 0.5 + Double(index)*0.2, selection: $selection, highlightAnswer: .constant(nil))
+                    OptionButtonView(title: option, delay: 0.3 + Double(index)*0.15, selection: $selection, dismissOptions: $dimissOptions)
                 }
             }
-            .offset(y: showOptions ? 0 : 150)
+            .offset(y: showQuestion ? 0 : 150)
         }
-        .opacity(showOptions ? 1 : 0)
         .onAppear {
-            withAnimation(.easeInOut(duration: 1)) {
-                showOptions = true
+            withAnimation(.easeInOut(duration: 0.5)) {
+                showQuestion = true
+            }
+        }
+        .onChange(of: question.current) { _ in
+            withAnimation(.easeInOut(duration: 0.5)) {
+                showQuestion = true
             }
         }
         .onChange(of: selection) { _ in
-            withAnimation(.easeInOut(duration: 0.5).delay(1)) {
+            withAnimation(.easeInOut(duration: 0.5)) {
                 dismissQuestion = true
+                dimissOptions = true
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 publishSelection = selection
                 dismissQuestion = false
+                dimissOptions = false
+                showQuestion = false
             }
         }
     }
@@ -215,7 +242,7 @@ struct OptionButtonView: View {
     let title: String
     let delay: TimeInterval
     @Binding var selection: String?
-    @Binding var highlightAnswer: String?
+    @Binding var dismissOptions: Bool
     @State var showAnimated: Bool = false
     
     var body: some View {
@@ -233,45 +260,18 @@ struct OptionButtonView: View {
         .opacity(showAnimated ? 1 : 0)
         .scaleEffect(showAnimated ? 1 : 0.9)
         .onAppear {
-            withAnimation(.easeInOut(duration: 0.5).delay(delay)) {
+            withAnimation(.easeInOut(duration: 0.3).delay(delay)) {
                 showAnimated = true
             }
         }
-//        .animation(.easeInOut(duration: 0.5).repeatCount(5, autoreverses: true), value: highlightAnswer)
+        .onChange(of: dismissOptions) { _ in
+            withAnimation(.easeInOut(duration: 0.3).delay(delay)) {
+                showAnimated = !dismissOptions
+            }
+        }
     }
     
     func getBackgroundColor() -> Color {
-        if let highlightAnswer = highlightAnswer {
-            if title == highlightAnswer {
-                return Color("CorrectButtonBackground")
-            } else {
-                if selection == title {
-                    return Color("WrongButtonBackground")
-                } else {
-                    return Color("ButtonBackground")
-                }
-            }
-        } else {
-            return selection == title ? Color("CorrectButtonBackground") : Color("ButtonBackground")
-        }
+        return selection == title ? Color("CorrectButtonBackground") : Color("ButtonBackground")
     }
-    
-    func getOpacity() -> CGFloat {
-        if let highlightAnswer = highlightAnswer {
-            if title == highlightAnswer {
-                return 0
-            } else {
-                return 1
-            }
-        } else {
-            return 1
-        }
-    }
-}
-
-#Preview {
-    ContentView(viewModel: ContentViewModel(questions: [
-        Question(options: ["Lemon", "Orange", "Banana", "Strawberry"], answer: "Orange"),
-        Question(options: ["Porsche", "Ferarri", "Tesla", "Vinfast"], answer: "Vinfast")
-    ]))
 }

@@ -12,9 +12,11 @@ struct QuizApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(viewModel: ContentViewModel(questions: [
-                Question(options: ["Lemon", "Orange", "Banana", "Strawberry"], answer: "Orange"),
-                Question(options: ["Porsche", "Ferarri", "Tesla", "Vinfast"], answer: "Vinfast"),
-                Question(options: ["Dog", "Cat", "Moschique", "Bird"], answer: "Bird")
+                Question(image: "racing-car", options: ["Lemon", "Orange", "Banana", "Strawberry"], answer: "Orange"),
+                Question(image: "sports-car",options: ["Porsche", "Ferarri", "Tesla", "Vinfast"], answer: "Vinfast"),
+                Question(image: "Orange_fruit_logo", options: ["Dog", "Cat", "Moschique", "Bird"], answer: "Bird"),
+                Question(image: "sports-car",options: ["Porsche", "Ferarri", "Tesla", "Vinfast"], answer: "Vinfast"),
+                Question(image: "Orange_fruit_logo", options: ["Dog", "Cat", "Moschique", "Bird"], answer: "Bird")
             ]))
         }
     }
