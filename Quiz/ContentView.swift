@@ -160,6 +160,7 @@ struct QuestionView: View {
     @State var dismissQuestion: Bool = false
     @Binding var publishSelection: String?
     @State private var dimissOptions = false
+    @State private var showAnswer = false
     
     var body: some View {
         VStack {
@@ -185,7 +186,14 @@ struct QuestionView: View {
             VStack(spacing: 15) {
                 ForEach(question.current.options.indices, id: \.self) { index in
                     let option = question.current.options[index]
-                    OptionButtonView(title: option, delay: 0.3 + Double(index)*0.15, selection: $selection, dismissOptions: $dimissOptions)
+                    OptionButtonView(
+                        title: option,
+                        correctAnswer: question.current.answer,
+                        delay: 0.3 + Double(index)*0.15,
+                        selection: $selection,
+                        dismissOptions: $dimissOptions,
+                        showAnswer: $showAnswer
+                    )
                 }
             }
             .offset(y: showQuestion ? 0 : 150)
@@ -201,16 +209,25 @@ struct QuestionView: View {
             }
         }
         .onChange(of: selection) { _ in
-            withAnimation(.easeInOut(duration: 0.5)) {
-                dismissQuestion = true
-                dimissOptions = true
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                publishSelection = selection
-                dismissQuestion = false
-                dimissOptions = false
-                showQuestion = false
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                withAnimation(.easeInOut(duration: 0.5)) {
+                    showAnswer = true
+                }
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    withAnimation(.easeInOut(duration: 0.5)) {
+                        dismissQuestion = true
+                        dimissOptions = true
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        publishSelection = selection
+                        dismissQuestion = false
+                        dimissOptions = false
+                        showQuestion = false
+                        showAnswer = false
+                    }
+                }
             }
         }
     }
@@ -235,9 +252,11 @@ struct ImageQuestionView: View {
 
 struct OptionButtonView: View {
     let title: String
+    let correctAnswer: String
     let delay: TimeInterval
     @Binding var selection: String?
     @Binding var dismissOptions: Bool
+    @Binding var showAnswer: Bool
     @State var showAnimated: Bool = false
     
     var body: some View {
@@ -267,6 +286,16 @@ struct OptionButtonView: View {
     }
     
     func getBackgroundColor() -> Color {
-        return selection == title ? Color("CorrectButtonBackground") : Color("ButtonBackground")
+        if showAnswer {
+            if title == correctAnswer {
+                return Color("CorrectButtonBackground")
+            } else if selection == title && selection != correctAnswer {
+                return Color("WrongButtonBackground")
+            } else {
+                return Color("ButtonBackground")
+            }
+        } else {
+            return selection == title ? Color("CorrectButtonBackground") : Color("ButtonBackground")
+        }
     }
 }
