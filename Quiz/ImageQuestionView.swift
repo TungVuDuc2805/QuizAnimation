@@ -16,9 +16,9 @@ struct ImageQuestionView: View {
             
             Image(image)
                 .resizable()
-                .aspectRatio(1, contentMode: .fit)
                 .padding(30)
         }
+        .aspectRatio(1, contentMode: .fit)
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .shadow(color: Color.gray.opacity(0.3), radius: 5)
     }

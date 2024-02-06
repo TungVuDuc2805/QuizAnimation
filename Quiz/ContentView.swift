@@ -84,7 +84,7 @@ struct ContentView: View {
                             Image(systemName: "chevron.left")
                                 .fontWeight(.medium)
                         }
-                        .frame(width: 45, height: 45)
+                        .frame(width: 40, height: 40)
                         .background(Color.white)
                         .clipShape(Circle())
                         .shadow(color: Color.gray.opacity(0.2), radius: 5)
@@ -117,7 +117,7 @@ struct ContentView: View {
                             Image(systemName: "xmark")
                                 .fontWeight(.medium)
                         }
-                        .frame(width: 45, height: 45)
+                        .frame(width: 40, height: 40)
                         .background(Color.white)
                         .clipShape(Circle())
                         .shadow(color: Color.gray.opacity(0.2), radius: 5)
@@ -125,6 +125,7 @@ struct ContentView: View {
                     }
                     
                     Text("Which option that describes the image best?")
+                        .multilineTextAlignment(.center)
                         .fontWeight(.medium)
                         .foregroundStyle(Color.textColor)
                         .padding(.top)
@@ -151,4 +152,8 @@ struct ContentView: View {
         }
         .background(Color.backgroundColor)
     }
+}
+
+#Preview {
+    ContentView(viewModel: ContentViewModel(questions: questions))
 }
