@@ -162,47 +162,21 @@ struct QuestionView: View {
         VStack {
             ZStack {
                 if let next = question.nextNext {
-                    ZStack {
-                        Color.white
-                        
-                        Image(next.image)
-                            .resizable()
-                            .aspectRatio(1, contentMode: .fit)
-                            .padding(30)
-                    }
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .shadow(color: Color.gray.opacity(0.3), radius: 5)
-                    .offset(y: dismissQuestion ? 20 : 30)
-                    .scaleEffect(dismissQuestion ? 0.9 : 0.8)
+                    ImageQuestionView(image: next.image)
+                        .offset(y: dismissQuestion ? 20 : 30)
+                        .scaleEffect(dismissQuestion ? 0.9 : 0.8)
                 }
                 
                 if let next = question.next {
-                    ZStack {
-                        Color.white
-                        
-                        Image(next.image)
-                            .resizable()
-                            .aspectRatio(1, contentMode: .fit)
-                            .padding(30)
-                    }
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    .shadow(color: Color.gray.opacity(0.3), radius: 5)
-                    .offset(y: dismissQuestion ? -10 : 20)
-                    .scaleEffect(dismissQuestion ? 1 : 0.9)
+                    ImageQuestionView(image: next.image)
+                        .offset(y: dismissQuestion ? -10 : 20)
+                        .scaleEffect(dismissQuestion ? 1 : 0.9)
                 }
                 
-                ZStack {
-                    Color.white
-                    
-                    Image(question.current.image)
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .padding(30)
-                }
-                .clipShape(RoundedRectangle(cornerRadius: 20))
-                .offset(x: dismissQuestion ? 1000 : 0)
-                .shadow(color: Color.gray.opacity(0.3), radius: 5)
-                .offset(y: -10)
+                ImageQuestionView(image: question.current.image)
+                    .offset(x: dismissQuestion ? 1000 : 0)
+                    .shadow(color: Color.gray.opacity(0.3), radius: 5)
+                    .offset(y: -10)
             }
             .padding(40)
 
@@ -237,6 +211,23 @@ struct QuestionView: View {
                 showQuestion = false
             }
         }
+    }
+}
+
+struct ImageQuestionView: View {
+    let image: String
+    
+    var body: some View {
+        ZStack {
+            Color.white
+            
+            Image(image)
+                .resizable()
+                .aspectRatio(1, contentMode: .fit)
+                .padding(30)
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .shadow(color: Color.gray.opacity(0.3), radius: 5)
     }
 }
 
