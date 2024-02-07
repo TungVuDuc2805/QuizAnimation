@@ -23,7 +23,6 @@ class ContentViewModel: ObservableObject {
         }
     }
     @Published var triple: (current: Question, next: Question?, last: Question?)?
-    @Published var shouldHighlightCorrectAnswer: String?
     @Published var currentQuestionIndex = 0
     
     init(questions: [Question]) {
