@@ -8,7 +8,7 @@
 * Demo:
 
 <p align="center">
-  <img src="demo.gif" alt="animated" height="250"/>
+  <img src="demo.gif" alt="animated" height="400"/>
 </p>
 
 * Contact for work: tungvuduc2805@gmail.com
