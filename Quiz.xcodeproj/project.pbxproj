@@ -65,8 +65,8 @@
 				DF998D1B2B725A6700490D1D /* OptionButtonView.swift */,
 				DF998D192B725A5200490D1D /* ImageQuestionView.swift */,
 				DF998D052B71C72300490D1D /* Assets.xcassets */,
-				DF998D072B71C72300490D1D /* Preview Content */,
 				DF998D1F2B725B8200490D1D /* Color+Extension.swift */,
+				DF998D072B71C72300490D1D /* Preview Content */,
 			);
 			path = Quiz;
 			sourceTree = "<group>";

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct QuestionView: View {
-    let question: (current: Question, next: Question?, nextNext: Question?)
+    let question: (current: Question, next: Question?, last: Question?)
     @State var selection: String?
     @State private var showQuestion: Bool = false
     @State var dismissQuestion: Bool = false
@@ -29,8 +29,8 @@ struct QuestionView: View {
             Spacer()
             
             ZStack {
-                if let next = question.nextNext {
-                    ImageQuestionView(image: next.image)
+                if let last = question.last {
+                    ImageQuestionView(image: last.image)
                         .offset(y: dismissQuestion ? 20 : 30)
                         .scaleEffect(dismissQuestion ? 0.9 : 0.8)
                 }

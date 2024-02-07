@@ -22,7 +22,7 @@ class ContentViewModel: ObservableObject {
             checkAnswer()
         }
     }
-    @Published var triple: (current: Question, next: Question?, nextNext: Question?)?
+    @Published var triple: (current: Question, next: Question?, last: Question?)?
     @Published var shouldHighlightCorrectAnswer: String?
     @Published var currentQuestionIndex = 0
     
