@@ -6,7 +6,10 @@
 * Motivation: https://dribbble.com/shots/21064441-Lingo-Quiz-App
 
 * Demo:
-![](demo.gif)
+
+<p align="center">
+  <img src="demo.gif" alt="animated" height="250"/>
+</p>
 
 * Contact for work: tungvuduc2805@gmail.com
 
